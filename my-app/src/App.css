@@ -1,0 +1,365 @@
+/* --- Reset & body --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #74ebd5, #ACB6E5);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* --- Main grid layout --- */
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* --- General card styling --- */
+.card {
+  border-radius: 20px;
+  padding: 25px;
+  color: #fff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* --- Weather Card --- */
+#weather-card {
+  background: linear-gradient(to top, #4facfe, #00f2fe);
+  text-align: center;
+}
+
+.weatherIcon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.weatherIcon:hover {
+  transform: scale(1.1);
+}
+
+.temp {
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  cursor: default;
+}
+
+.temp:hover {
+  transform: scale(1.2);
+  color: #ffeb3b;
+  text-shadow: 0 0 15px #ffeb3b, 0 0 25px #ffeb3b;
+}
+
+.city {
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.city:hover {
+  color: #fff8dc;
+}
+
+/* Details like humidity and wind */
+.details {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.details .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details .col img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.details .col img:hover {
+  transform: scale(1.1);
+}
+
+.details .col p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* --- Recommendations Card --- */
+#recommendations-card {
+  background: linear-gradient(to top, #ff758c, #ff7eb3);
+}
+
+.recommendations h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.recommendations ul {
+  list-style-type: disc;
+  padding-left: 25px;
+}
+
+.recommendations li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* --- Forecast Card --- */
+#forecast-card {
+  background: linear-gradient(to top, #43e97b, #38f9d7);
+  text-align: center;
+}
+
+.forecast h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #fff;
+}
+
+/* --- Search bar styling --- */
+.search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.search input {
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 50px 0 0 50px;
+  border: none;
+  outline: none;
+  flex: 1;
+}
+
+.search button {
+  background: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 0 50px 50px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.search button:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .details {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .temp {
+    font-size: 36px;
+  }
+
+  .city {
+    font-size: 20px;
+  }
+
+  .weatherIcon {
+    width: 100px;
+    height: 100px;
+  }
+}
+/* --- Recommendations Card --- */
+#recommendations-card {
+  background: linear-gradient(to top right, #ff758c, #ff7eb3);
+  padding: 30px 25px;
+  min-height: 250px; /* ensures card doesn't look empty */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.recommendations h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.recommendations ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  flex-grow: 1; /* fills remaining space */
+}
+
+.recommendations li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* --- Forecast Card --- */
+#forecast-card {
+  background: linear-gradient(to top right, #43e97b, #38f9d7);
+  padding: 30px 25px;
+  min-height: 300px; /* ensures card doesn't look empty */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.forecast h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.forecast canvas {
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+}
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-width: 90%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.chatbot-container h3 {
+  text-align: center;
+}
+
+.chat-log {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  gap: 8px;
+}
+
+.chat-user {
+  align-self: flex-end;
+  background: #61dafb;
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 15px 15px 0 15px;
+  max-width: 80%;
+}
+
+.chat-bot {
+  align-self: flex-start;
+  background: #282c34;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 15px 15px 15px 0;
+  max-width: 80%;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  background: #61dafb;
+  color: #000;
+}
+.chat-toggle {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1001;
+}
+
+.chat-toggle img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.chatbot-container {
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Add this to your App.css or chatbot.css */
+.chatbot-launcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+

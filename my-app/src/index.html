@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+<div class="main-grid">
+    <div class="card weather-section">
+        <div class="search">
+            <input type="text" placeholder="Enter city name" spellcheck="false">
+            <button><img src="weather images/search.png"></button>
+        </div>
+        <div class="error"><p>Invalid city name</p></div>
+        <div class="weather">
+            <img src="weather images/rain.png" alt="weather-icon" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="weather images/humidity.png" alt="Humidity-icon">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="weather images/wind.png" alt="Wind-icon">
+                    <div>
+                        <p class="wind">15 km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="side-section">
+        <div class="recommendations">
+            <h3>Recommendations</h3>
+            <ul id="recommendation-list"></ul>
+        </div>
+        <div class="visualization">
+            <h3>Temperature Trend</h3>
+            <canvas id="tempChart" width="300" height="150"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const apiKey = "a0cb89bad98dc2afb9f14416d7496a0b";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+    const searchBox = document.querySelector(".search input");
+    const searchBtn = document.querySelector(".search button");
+    const weatherIcon = document.querySelector(".weather img");
+
+    async function checkWeather(city) {
+       const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+
+        if (response.status == 404) {
+            document.querySelector(".error").style.display = "block";
+            document.querySelector(".weather").style.display = "none";
+            return;
+        }
+
+        const data = await response.json();
+
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+        if (data.weather[0].main == "Clouds") {
+            weatherIcon.src = "weather images/clouds.png";
+        } else if (data.weather[0].main == "Clear") {
+            weatherIcon.src = "weather images/clear.png";
+        } else if (data.weather[0].main == "Rain") {
+            weatherIcon.src = "weather images/rain.png";
+        } else if (data.weather[0].main == "Drizzle") {
+            weatherIcon.src = "weather images/drizzle.png";
+        } else if (data.weather[0].main == "Mist") {
+            weatherIcon.src = "weather images/mist.png";
+        }
+
+        document.querySelector(".error").style.display = "none";
+        document.querySelector(".weather").style.display = "block";
+            showRecommendations(Math.round(data.main.temp), data.main.humidity, data.wind.speed, data.weather[0].main);
+            showTemperatureChart(Math.round(data.main.temp));
+    }
+
+        function showRecommendations(temp, humidity, wind, weatherMain) {
+            const recs = [];
+            if (temp >= 30) {
+                recs.push("Wear light clothes");
+                if (humidity >= 70) recs.push("Dehydration risk: drink water");
+            } else if (temp <= 15) {
+                recs.push("Carry a jacket");
+            } else {
+                recs.push("Dress comfortably");
+            }
+            if (weatherMain === "Rain" || weatherMain === "Drizzle") {
+                recs.push("Carry an umbrella");
+                recs.push("Avoid outdoor events");
+            } else if (weatherMain === "Clear") {
+                recs.push("Good day for jogging");
+            }
+            if (wind >= 25) {
+                recs.push("Caution: High wind speed");
+            }
+            const recList = document.getElementById("recommendation-list");
+            recList.innerHTML = "";
+            recs.forEach(r => {
+                const li = document.createElement("li");
+                li.textContent = r;
+                recList.appendChild(li);
+            });
+            document.querySelector(".recommendations").style.display = "block";
+        }
+
+        function showTemperatureChart(temp) {
+            const canvas = document.getElementById('tempChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (window.tempChartInstance) {
+                window.tempChartInstance.destroy();
+            }
+            window.tempChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Now'],
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: [temp],
+                        borderColor: 'rgba(75,192,192,1)',
+                        backgroundColor: 'rgba(75,192,192,0.2)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        y: { beginAtZero: false }
+                    }
+                }
+            });
+            document.querySelector(".visualization").style.display = "block";
+        }
+    searchBtn.addEventListener("click", () => {
+        const city = searchBox.value;
+        if (city) {
+            checkWeather(city);
+        }
+    });
+    </script>
+    </body>
+    </html>
