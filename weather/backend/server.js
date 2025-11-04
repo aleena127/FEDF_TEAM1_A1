@@ -3,7 +3,12 @@ import cors from "cors";
 import fs from "fs";
 
 const app = express();
-app.use(cors());
+
+//CRITICAL CHANGE: Configure CORS to ONLY allow your deployed frontend URL 
+app.use(cors({
+    origin: 'https://weather-fedf.onrender.com'
+}));
+
 app.use(express.json());
 
 const DB_FILE = "./db.json";
@@ -84,12 +89,7 @@ app.get("/", (req, res) => {
   res.send("✅ Server is running properly!");
 });
 
-// --- 👇 CRITICAL CHANGE FOR RENDER DEPLOYMENT 👇 ---
-
-// Define the port: Use Render's environment variable (process.env.PORT) 
-// or default to 5000 for local development.
 const PORT = process.env.PORT || 5000;
 
 // Start the server using the dynamic PORT variable
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
