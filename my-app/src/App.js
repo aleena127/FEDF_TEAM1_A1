@@ -1,20 +1,33 @@
-import React from 'react';  
-import WeatherApp from './weatherApp';
-import logo from './logo.svg';
-import Login from './login';
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import WeatherApp from "./weatherApp";
+import Login from "./login";
+import Signup from "./Signup";
+import ForgotPassword from "./ForgotPassword";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
   return (
-    
-    <div className="App">
-      {isLoggedIn ? (
-       <WeatherApp/>
-      ) : (
-      <Login onLogin={() => setIsLoggedIn(true)} />
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isLoggedIn ? (
+                <WeatherApp />
+              ) : (
+                <Login onLogin={() => setIsLoggedIn(true)} />
+              )
+            }
+          />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
