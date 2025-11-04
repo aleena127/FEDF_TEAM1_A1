@@ -1,10 +1,16 @@
 services:
   - type: web
-    name: weather-app
+    name: weather-backend
     env: node
+    rootDir: weather/backend
+    buildCommand: yarn install
+    startCommand: yarn start
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    envVars:
-      - key: REACT_APP_API_KEY
-        value: your_openweather_api_key_here
+
+  - type: web
+    name: weather-frontend
+    env: node
+    rootDir: weather/my-app
+    buildCommand: yarn install && yarn build
+    startCommand: npx serve -s build
+    plan: free
