@@ -15,10 +15,15 @@ function ForgotPassword() {
 
     setLoading(true);
     try {
-      const res = await fetch("https://weather-api-zk5f.onrender.com/forgot-password", { 
+
+      const res = await fetch("http://localhost:5000/forgot-password", {
+
         method: "POST",
+
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+
+        body: JSON.stringify({ username, password }),
+
       });
       const data = await res.json();
       if (res.ok || data.success) {
