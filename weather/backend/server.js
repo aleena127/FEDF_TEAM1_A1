@@ -6,7 +6,7 @@ const app = express();
 
 //CRITICAL CHANGE: Configure CORS to ONLY allow your deployed frontend URL 
 app.use(cors({
-    origin: 'https://weather-fedf.onrender.com'
+    origin: ['http://localhost:3000', 'https://fedf-project-frontend.onrender.com']
 }));
 
 app.use(express.json());
